@@ -1,16 +1,23 @@
 # Graph Represenation
 
-## Adjacency Matrix
+## [Adjacency Matrix](https://takeuforward.org/graph/graph-representation-in-c)
 - n X n matrix banaao, where n is number of nodes(vetices).
 - agar undriected hai to mat[src][dest] and mat[dest][src] dono me weight daal do, nahi to jis direction me hai usme.
 - unweighted hai to boolean matrix bana ke true daal do.
 - 10^3 nodes ke liye tak hi kaam karega, cuz memory limit 10^6
+- for BFS, DFS to find neighbours, if you have to find for say ith node, you traverse the entire graph[i] and see which is non -1 / 0
 
-## Adjaceny List
+## [Adjaceny List](https://takeuforward.org/graph/graph-representation-in-c)
 - vector<vector< pair<int,int>>> banao, where vector[i] represents all the nodes jo i se connected hai.
 - pair is required for storing dest, weight. if unweight, you can simply store, vector<vector<int>>>
 - you can also create a struct Edge with src, dest, weight int variables.(overkill, not needed, but easy to write)
 and create a vector<vector<Edge>>>
+
+## Degree of Graph
+- Degree of graph kuch nahi hota, degree of node hota hai
+- undirected graph -> number of edges attacahed to node
+- directed graph -> indegree  and outdegree hota hai, self understandable
+- total degree of graph (directed or undirected) = 2* edges.  every edge is +1 degrees in two nodes.
 
 ## Why applying DP to graph problem is not a good idea
 Graph can have cycles
@@ -47,6 +54,42 @@ Graph can have cycles
 - Used to find path with least cummulative weight in weighted path.
 - used to find shortest path in map and stuff.
 - Normal BFS, but instead of queue, use priority queue.
+
+## MST - Minimum Spanning Tree
+- Tree : Connected Acylic graph
+- Spanning: Connecting all vertices
+- MST: Minimum spanning tree - covers all vertices in minimum weight/edge like a tree
+- Two algorithm: Prim's and Kruskal
+
+## Prim's algorithm
+- Used to find MST
+- similar to Djiskta, but instead of cummulative weight in priority queue, bas edge ka weight insert hota hai. 
+- so essentially a BFS in which we take out next node with minimum weight between edge of node and that neigbour node.
+
+## Topological Sort
+- only applicable in acyclic directed graph.
+- find a permuation of nodes such that, if u --> v is an edge, u comes before v for all nodes.
+- order of work is reverse of topological sort, i.e u-->v me
+    - in topological u will come before v
+    - in order of work, since u depends on v, v needs to be done first and hence, v will come before u. 
+- Run DFS, post-order traversal, keep adding element to vector. Same order will be order of work, reverse will be topological sort.
+
+## Iterative DFS
+- same as BFS, use stack instead of queue.
+- <b>Need:</b> stack has limited memory, stackoverflow possible due to function calls for large single connected nodes. Using iterative, we can utilise heap memory to store stack and avoid stackoverflow.
+
+## DFS on adjacency matrix
+- to find neighbours, traverse on all of graph[i] to find all the neighbours of ith node
+
+## What to use as visited array
+- when you have adjaceny list, use vector<bool>
+- when you need to store some levels to it, use vector<int> and store whatever information you need
+- when you have have a matrix graph (the 1,0 kind of graph), the same graph dimensions has to be visited array as well. since there is no node/edge information, you will need to have this to ensure you don't end up again at same.
+- whenever you see directions you have to go manually (like up down right left) always think about visited array of same size as grid/graph.
+- always take care of boundary conditions i.e. >=0 and <= max graph size and visited.
+
+## Manhattan Distance
+Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|.
 
 # Resource:
 

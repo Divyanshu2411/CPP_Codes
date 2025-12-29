@@ -39,6 +39,14 @@ Given a graph, find if it's connected
 ### Hint
 - start traversal from visited and look for all the paths, if all the nodes visited, you good.
 
+## [Connected Components in an Undirected Graph](https://www.geeksforgeeks.org/problems/connected-components-in-an-undirected-graph/1)
+```text
+given graph, return a 2d vector, where each individual vector has a connected component ke all nodes
+```
+### Hint
+- with the help of edges, create an adjacency list. Always create an adjacency list.
+- similar to get connected components, but instead of enhancing count, you store nodes visited till now in this path and add it in each loop as component.
+
 ## [Number of Island](https://leetcode.com/problems/number-of-islands/description/)
 ```text
 Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
@@ -95,8 +103,69 @@ Given graph, find if the graph is Bipartite
 ```text
 Given a weighted graph, find path with smallest cummulative weight from src node to dest node.
 ```
-
+### Hint
 - start with src node, run BFS, but instead of queue, use priority queue (priority on weight). 
 - After each eviction, add it's unvisited neighbor (while adding, also add the weight between that neigbor and the current node).
 - priority queue will automatically make least cummulative weight as top.
 - while evictinga node, if you see it has already been visited, simply discard it as a better path has already been discovered. move to next node simply.
+
+## Prim's Algorithm
+```text
+Given a weighted graph, find it's MST. (computer netwrok me minimum lan).
+```
+### Hint
+- start with src node, run BFS, but instead of queue, use priority queue (priority on weight)
+- after each eviction, add it's unvisited neighbour (add only edge node weight, in djisktra, we added cummulative weight adding current weight in weight till now. )
+- priority queue will automatically make path of least weight as top.
+- while evictinga node, if you see it has already been visited, simply discard it as a better path has already been discovered. move to next node simply.
+
+## Topological Sort
+```text
+Given an acylcic directed graph, find it's topological order (Remember, topological order is reverse of Order of work )
+```
+### Hint
+- Run DFS in post order traversal manner (basically when all recursive calls have been returned)
+- Action of post order is to add element to a vector.
+- vector as it is is order of work (since the dependencies are processed first and hence added first), reverse of the vector is topological sort.
+- Note: people use stack and just empty it to show topological sort, I personally find vector more useful for further processing. 
+
+## Iterative DFS
+```text
+Do iterative DFS.
+```
+### Hint
+- BFS but use stack instead of queue.
+
+## [Rotting Orange](https://leetcode.com/problems/rotting-oranges/description/)
+```
+You are given an m x n grid where each cell can have one of three values:
+
+0 representing an empty cell,
+1 representing a fresh orange, or
+2 representing a rotten orange.
+Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+
+Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+```
+
+### Hint
+- DFS approach: (faster than 100%)
+    - visited array as big as grid filled with INT_MAX (to denote not reached)
+    - every time you see rotten fruit, run a dfs on it.
+    - dfs base condition if(i<0||j<0||i>=n || j >=m || grid[i][j]==0 || visited[i][j]<=level) return; the visited <= level ensure that if through some other path, orange can get spoilt faster, we don't block it
+    - we update the visited with level. dfs(grid, visited, i, j, level) is our function, every time we move in a direction, we do level +1
+    - once the whole grid is traversed, we traverse visited grid and see which fruit took longest to spoil.
+    - we need to ensure we don't check empty grid, so we check if grid[i][j]!=0 while traversing visited.
+    - if our ans is INT_MAX, it means some fruit could not be spoilt, return -1 else return fruit.
+    - Initialise ans with 0, as there can be condition of an empty grid in which case answer is 0. 
+
+
+- BFS approach (actual recommend approach)
+    - Traverse the grid first and push all the i,j pairs to queue wherever there is a rotten orange. These will serve as the starting points of spoilage.
+    - Also maintain a count of total number of freshOranges to confirmm if all of them got spoiled without a need to traverse again.
+    - Run a bfs using the queue.
+    - While original queue is not empty
+        - Find size of queue, and run loop size number of time - following will simulate spoilage from all sources
+            - pop the queue front, look at it's four direction and see if any fresh orange is there.
+            - decrese freshOrange count, mark it as 2 i.e. spoiled and insert it's i,j to queue. (as this will act as spoilage node now).
+        - increase minute by 1. (so basically you see how much spoilage happened every minute and update that).
