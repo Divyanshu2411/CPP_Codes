@@ -13,6 +13,10 @@
 - you can also create a struct Edge with src, dest, weight int variables.(overkill, not needed, but easy to write)
 and create a vector<vector<Edge>>>
 
+## Pixel Representation
+- graph is represented using bit(1/0) or some pixel where actual graph is plotted on a grid.
+- you need to traverse the whole grid and figure out whatever is given, there is no node/vertices scene ya yu kahe, every i,j is a node and every adjoining cells is connected through an edge. 
+
 ## Degree of Graph
 - Degree of graph kuch nahi hota, degree of node hota hai
 - undirected graph -> number of edges attacahed to node
