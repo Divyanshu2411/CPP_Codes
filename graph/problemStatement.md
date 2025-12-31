@@ -82,7 +82,7 @@ Given graph, find if there is any cycle.
 
 ### Hint
 - there can be multiple component, so for each component, run DFS/BFS all path wala.
-- if we come across any visited which has already been visited, that means cycle is there
+- if we come across any visited which has already been visited, that means cycle is there, just ensure it's not the parent node
 - kuki ek hi node pe pauchne ke ek component me do raste tab hi honge agar cycle hoga.
 - NOTE: A cycle exists if you encounter a visited node that is not the direct parent of the current node
 
@@ -169,3 +169,33 @@ Return the minimum number of minutes that must elapse until no cell has a fresh 
             - pop the queue front, look at it's four direction and see if any fresh orange is there.
             - decrese freshOrange count, mark it as 2 i.e. spoiled and insert it's i,j to queue. (as this will act as spoilage node now).
         - increase minute by 1. (so basically you see how much spoilage happened every minute and update that).
+
+## [As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/description/)
+```text
+Given an n x n grid containing only values 0 and 1, where 0 represents water and 1 represents land, find a water cell such that its distance to the nearest land cell is maximized, and return the distance. If no land or water exists in the grid, return -1.
+
+The distance used in this problem is the Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|.
+```
+
+### Hint
+-  rotten orange, water is fresh, land is rotten
+
+## [Flood Fill](https://leetcode.com/problems/flood-fill/description/)
+```text
+given a grid, starting from a given cell, fill all connected grid with same color as given cell with new color(given in problem).
+```
+
+### Hint
+- find all connected node of a component, can use BFS/DFS. Anything.  
+- Think like all the cells of the same color are 1 and everything else is 0, it instantly becomes a quesiton of finding all connected cells.
+
+## [0/1 Matrix](https://leetcode.com/problems/01-matrix/description/)
+```
+given 0/1 matrix, return the distance of nearest 0 for EACH cell.
+```
+
+### Hint
+- rotten orange, 0 is rotten, 1 is fresh
+- whenever anything is getting affected cell by cell, think of rotten orange once. 
+- to optimise, mark every 1 as -1 initially, then you can use same matrix to figure out if we have seen it or not.
+- newLevel= level of queueFront +1. (level= distance)
