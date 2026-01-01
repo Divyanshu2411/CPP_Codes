@@ -78,6 +78,26 @@ Graph can have cycles
     - in order of work, since u depends on v, v needs to be done first and hence, v will come before u. 
 - Run DFS, post-order traversal, keep adding element to vector. Same order will be order of work, reverse will be topological sort.
 
+## Kahn's Algorithm (BFS topological Sort)
+- when we run topological sort using BFS, it's called Kahn's algorithm
+- we keep track of in-degrees. 
+- build an array with in-degrees for all the nodes, jisak indegree 0 hai usko execute and uske sare neigbours ka indegree ek ek kam kar do and jiska 0 ho usko queue me daal do.
+
+### Comparison Summary
+- If you need to find the lexicographically smallest topological sort (e.g., "If tasks are equal, do the one with the lower ID first"), Kahn’s algorithm is the standard choice. You simply replace the Queue with a PriorityQueue (Min-Heap).
+- In real-world task scheduling (like building software with make or bazel), BFS is superior for parallelism.
+    - Kahn’s algorithm naturally groups nodes into "levels." All nodes with an in-degree of 0 at any given step are independent and can be executed simultaneously.
+- Kahn’s algorithm is inherently better at detecting cycles during the sorting process. If the final topological order contains fewer than $V$ nodes, the graph must have a cycle. It's a simple counter check.
+    - As if there is a cycle, we will reach a state where none of the neighbour in de-gree is 0 and won't process further nodes.
+
+| Feature | BFS (Kahn's) | DFS (Recursive) |
+| :--- | :--- | :--- |
+| **Implementation** | Iterative (Queue) | Recursive (Stack) |
+| **Cycle Detection** | Count nodes vs total $V$ | Back-edge detection (3 colors) |
+| **Parallelism** | Excellent (process levels) | Poor (sequential depth) |
+| **Memory** | Heap memory (Queue) | Call Stack (Recursion) |
+| **Custom Order** | Easy (Priority Queue) | Difficult |
+
 ## Iterative DFS
 - same as BFS, use stack instead of queue.
 - <b>Need:</b> stack has limited memory, stackoverflow possible due to function calls for large single connected nodes. Using iterative, we can utilise heap memory to store stack and avoid stackoverflow.

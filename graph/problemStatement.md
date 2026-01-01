@@ -199,3 +199,102 @@ given 0/1 matrix, return the distance of nearest 0 for EACH cell.
 - whenever anything is getting affected cell by cell, think of rotten orange once. 
 - to optimise, mark every 1 as -1 initially, then you can use same matrix to figure out if we have seen it or not.
 - newLevel= level of queueFront +1. (level= distance)
+
+## [Surrounded Regions](https://leetcode.com/problems/surrounded-regions/description/)
+```
+You are given an m x n matrix board containing letters 'X' and 'O', capture regions that are surrounded. X can capture all those 0 which are surrounded by X on all sides.
+```
+
+### Hint
+- only O cells reachable by border Os are safe, everything else can be captured. kuki vo kaise na kaise karke X se surround ho hi jayega.
+- run DFS from all of boundary Os (boundary DFS bolte hai apparently) and mark them as S (Safe).
+- Tip: don't try to do left, right, top, bottom iteration, simply do a double loop. Not worth the hassel.
+- end me run another double loop, whatever is S, make it O, whatever was O mark it as X, as it will be captured.
+
+## [Number of Enclaves](https://leetcode.com/problems/number-of-enclaves/description/)
+```
+1 is land, 0 is water, a matrix given. Find number of land cells from which you can never reach the boundary.
+```
+
+### Hint
+- same as surrounded region, we just need to find count of captured Os.
+- or we can flood fill the land from boundary using water.
+
+## [BFS Topological (Kahn's Algo)]()
+- Initialize an array to store the in-degree of each vertex as zero.
+- Build the adjacency list for the graph.
+- For each directed edge, increment the in-degree of the destination vertex.
+- Create a queue and enqueue all vertices with in-degree zero.
+- Initialize an empty list to store the topological order.
+- While the queue is not empty:
+- Remove the front vertex from the queue and add it to the order list.
+- For each neighbor of this vertex, reduce its in-degree by one.
+- If a neighbor’s in-degree becomes zero, enqueue it.
+- Return the order list as the topological sort.
+
+## Detecting cycle in directed graph
+
+### Hint
+- BFS
+    - Kahn's algo, agar sare node visit nahi hue then there is a cycle (Since there will be a node jiska in degree will never be 0)
+- DFS
+    - Simple visited won't work (think of diamond A->B, B->C, A->D, D->C, C can be legitimately visited twice (or more)).
+    - we keep three states in visited, white (unvisited), grey (currently in recursion stack, post-traversal baki hai), black (not in recursion).
+    - as soon as we reach a node, we mark it as grey, pre-traversal me, and once all it's children are explore, we mark it as grey in post-travel.
+    - if we ever encounte a node in visited while looking for neighbours, it means there is a circle (A->B, B->C, C->A)
+
+## Course Schedule
+```text
+ you need to take a course before you take another course. [[0,1][2,3]] you need to take 1 before 0, 3 before 2.
+ problem one: just tell if possible or not
+ problem two: return list of order in which we can take course
+```
+
+### Hint
+- course schedule 1: 
+    - create adjaceny list, note : node is at 1st index and uska directed neigbour is at 0th index.
+    - cycle detection of directed graph using DFS(3 color, white, black,grey) ya BFS(kahn's algo)
+- course schedule 2:
+    - create adjacency list
+    - BFS Kahn's algo
+
+## Find Eventual Safe State
+```text
+A node is a terminal node if there are no outgoing edges. A node is a safe node if every possible path starting from that node leads to a terminal node (or another safe node).
+
+Return an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.
+```
+
+### Hint
+- BFS (intutive but slower)
+    - create reverse adjacency list graph, because current one deals with outdegree, but we can use kahn's only on indegree with known start.
+    - do a topological sort (kahn's algortihm/cycle detection) and whatever ever gets into queue, is not part of any cycle and can be safely reached
+    - sort answer
+- DFS (very fast, no need to create new graph, and since we process node by node, no need to sort)
+    - use 3 color cycle detection (return true if visited[]=1, false if visited =false to prune). pre-order , mark 1, post order mark 2
+    - whatever visited nodes have  2 are safe
+    - for each node in graph  (starting from 0 to n-1) run partOfCycle code, if it is not, add it to answer. Already sorted, return.
+
+## Alien Dictionary
+```text
+given an array of words of english letters sorted in lexicographical order, return the order of lexicographical way aliens use alphabet. If there is some reason it can't  happen, return empty string, else lexicographically arranged string
+```
+
+### Hint
+- two reasons it can't happen:
+    - there is a cycle i.e b> c and c> b, so can't be arranged
+    - IMPORTANT: in a dicitionary,  if one string is prefix of other, smaller string comes first (ab before abc)
+
+- create a graph first of size 26. 
+    - take two consecutive words at a time from array, and find first non equal charcter. (since already sorted, first string will be smaller than other, so first not equal character will be smaller than other).  (always run loop till minimum size of both strings)
+    - for non equal character, insert character from second string as dependent node on charcter of first string.
+    - In case we encounter second reason from above, we immediately return not possible.
+
+- Find all the valid chacracter, 
+    - i.e. all the actual characters being used in all the words. double loop, look at each character. It it not necessary it will use all 26.
+
+- Topological sort
+    - Kahn's algo or 3 color DFS. Always validate whatever neigbour you choose/ element you push to queue is a valid character. else skip that
+
+
+

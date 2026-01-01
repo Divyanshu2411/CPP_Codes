@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace::std;
+
+class Solution {
+public:
+
+    vector<int> eventualSafeNodesBFS(vector<vector<int>>& graph){
+        // BFS - create a reverse adjacency list, do a topological sort (kahn's algortihm/cycle detection) and whatever ever gets into queue, is not part of any cycle and can be safely reached
+
+        // working with outdeg doesn't work, because you don't know where to go next
+        int n= graph.size();
+        vector<vector<int>> revGraph(n);
+        vector<int> indeg(n,0);
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<graph[i].size(); j++){
+                revGraph[graph[i][j]].push_back(i);
+                indeg[i]++;
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            if(indeg[i]==0) q.push(i);
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            int curr= q.front();
+            q.pop();
+            ans.push_back(curr);
+
+            for(int i=0; i<revGraph[curr].size(); i++){
+                int nbr= revGraph[curr][i];
+                indeg[nbr]--;
+                if(indeg[nbr]==0) q.push(nbr);
+            }
+
+        }
+
+        sort(ans.begin(), ans.end());
+
+        return ans;
+    }
+
+    bool isPartOfCycle(vector<vector<int>>&graph, vector<int> &visited, int src){
+        if(visited[src]==1) return true;
+        if (visited[src] == 2) return false;
+
+        visited[src]=1;
+
+        for(int i=0; i<graph[src].size(); i++){
+            if(isPartOfCycle(graph,visited, graph[src][i])) return true;
+        }
+        visited[src]=2;
+
+        return false;
+    }
+
+    vector<int> eventualSafeNodesDFS(vector<vector<int>>& graph) {
+        // 3 state cycle detection, for each node, run if they are part of any cycle. whichever has visited[i]==2 (black), they are safe, rest grey ones are unsafe
+        int n=graph.size();
+        vector<int> visited (n,0); //0->white, 1->grey, 2->black
+        vector<int> ans;
+        for(int i=0; i<n; i++){
+            if(!isPartOfCycle(graph,visited,i))
+                ans.push_back(i);
+        }
+
+        return ans;
+    }
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        // two ways to solve
+        // essentially we are trying to find kaun kaun sa node are part of some cycle
+        // DFS - 3 state cycle detection, for each node, run if they are part of any cycle. whichever has visited[2] black, they are safe, rest grey ones are unsafe
+        // BFS - create a reverse adjacency list, do a topological sort (kahn's algortihm/cycle detection) and whatever ever gets into queue, is not part of any cycle and can be safely reached
+
+        // return eventualSafeNodesBFS(graph);
+        return eventualSafeNodesDFS(graph);
+    }
+};
