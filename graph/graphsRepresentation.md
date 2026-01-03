@@ -57,7 +57,8 @@ Graph can have cycles
 ## Djikstra Algorithm
 - Used to find path with least cummulative weight in weighted path.
 - used to find shortest path in map and stuff.
-- Normal BFS, but instead of queue, use priority queue.
+- Normal BFS, but instead of queue, use priority queue. 
+- Visited array me distance/weight which can be revisited if we get better path/weight.
 
 ## MST - Minimum Spanning Tree
 - Tree : Connected Acylic graph
@@ -82,6 +83,7 @@ Graph can have cycles
 - when we run topological sort using BFS, it's called Kahn's algorithm
 - we keep track of in-degrees. 
 - build an array with in-degrees for all the nodes, jisak indegree 0 hai usko execute and uske sare neigbours ka indegree ek ek kam kar do and jiska 0 ho usko queue me daal do.
+
 
 ### Comparison Summary
 - If you need to find the lexicographically smallest topological sort (e.g., "If tasks are equal, do the one with the lower ID first"), Kahn’s algorithm is the standard choice. You simply replace the Queue with a PriorityQueue (Min-Heap).

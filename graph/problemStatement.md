@@ -298,3 +298,45 @@ given an array of words of english letters sorted in lexicographical order, retu
 
 
 
+
+## Word Ladder I
+```text
+Given two words (beginWord and endWord), and a dictionary's word list, find the length of the shortest transformation sequence from beginWord to endWord.
+- Only one letter can be changed at a time.
+- Each transformed word must exist in the word list.
+- Return 0 if no path exists.
+```
+
+### Hint
+- put initial word in queue (word, level)
+- put every word in wordlist in set for O(1) lookup
+- run BFS (while q is not empty), and maintain a level.
+- for each level, remove all the words (size--) one by one, change all it's characters from 'a' to 'z' and check if it's present in set.
+    - if it was, add it to queue, remove it from set (this works as visited)
+- if we ever reach end word, return level
+- if q gets empty, return 0.
+
+
+## Word Ladder II
+```text
+Given two words (beginWord and endWord), and a dictionary's word list, return all the shortest transformation sequences from beginWord to endWord. 
+Each sequence must be of the same minimum length.
+```
+### Hint
+### Comparison: Word Ladder 1 vs. 2
+- **Queue Content:** - WL1 stores just the word (or `{word, level}`).
+    - WL2 stores the **entire path** (`vector<string>`) to reconstruct the answer.
+
+- **Set Erase Logic (The biggest change):**
+    - **WL1:** Erase `newWord` immediately. We only care about the *first* time we hit it.
+    - **WL2:** We might hit `newWord` multiple times from different parents at the **same level**. To allow this, we use a `toRemove` buffer. We only erase words from the set once the entire BFS level is finished. 
+
+- **Termination:**
+    - **WL1:** Stop and return `level` the second you touch `endWord`.
+    - **WL2:** Once you touch `endWord`, you must complete the **entire current level** to ensure you find all parallel shortest paths, then stop.
+
+
+## [Cheapest Flights Within K stops](https://leetcode.com/problems/cheapest-flights-within-k-stops/solutions/7456487/bfs-djikstra-faster-than-100-by-divyansh-tsut/)
+
+### Hint
+- look at this
