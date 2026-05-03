@@ -90,3 +90,34 @@ given string, find longest palindromic subsequence.
  ### Hint
   - find longest palindromic subsequence (LPS).
   - answere = s.length - lps(s).length
+
+## Minimum number of Insertion to make a string palindromic
+ ```text
+ given string, find minimum number of insertion to make string palindromic.
+ ```
+
+ ### Hint
+  - same as minimum number of deletion.
+  - lps to already palindrome me hai, jo lps ka part nahi hai ya to usko delete karo ya uske corresponding element add karo.
+  - hence both insertion and deletion have same answer
+
+## Longest Repeating Subsequence
+```text
+given a string s, find longest repeating subsequence
+```
+
+### Hint
+- There will not be more than two repetition of largest subsequence. (3rd is possible abcabcabc but the length is going to be same as 2, so can ignore, if there are 4 repetions, they can always be represented as combianation of larger 2 repetetions).
+- two ways, create another string only consisting of elements which at least occur twice and find lcs between the two
+- essentially, we don't want to take same element twice, so find lcs of same string twice, with the catch that we don't include the element in lcs if i==j (i.e both of them are pointing to same element)
+
+## Sequence Pattern Matching
+```text
+given two strings, s1, s2. Find if one of them is subequence of other.
+```
+
+### Hint
+- find lcs, if lcs ==s1 || lcs ==s2, return true;
+- you don't need to find actual lcs string just the size, and compare sizes of lcs, s1 and s2. (it works because if lcs size ==s1.size(), then s1 has to be lcs, no other option. Similarly, if lcs size==s2.size())
+- 
+

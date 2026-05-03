@@ -85,6 +85,13 @@ class doublyLL{
         cout<<"NULL\n";
     }
 
+    Node<K,V> * getHead(){
+        return listHead;
+    }
+
+    Node<K,V>* getTail(){
+        return listTail;
+    }
     //Destructor, to ensure the memory is freed and no memory leak
     ~doublyLL(){
         Node<K,V> * curr = listHead;

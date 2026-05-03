@@ -117,6 +117,30 @@ Graph can have cycles
 ## Manhattan Distance
 Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|.
 
+
+## DSU
+Honestly, crazy DS (too much implications). Essentially, it divides the graph into disjoint sets (components), and allows two function
+- two vectors -> parent array (size n, with each node its own), size array (size of component under this parent root)
+- findParent(a) -> returns the ultimate parent/ root of the component
+- union(a,b) -> if a,b belong to different sets, connects them and make one big set
+
+- to check if a component is present is same -> call find parent on both element and see if root matches
+
+- *Critical*: In cases where mapping can't be 1-1, like grid cell has i,j, so you don't know what to make of parent, convert those into a number/string and use a hashmap to map against parent.
+eg: in pixel graph, if boundaries are 10^3 X 10^3, umap[r*10^3+c] will lead to unique numbers for each cell and you can map them against a natural number from 0 to n in parent. 
+    - so instead of parent[cell] we do parent[umap[hash(cell)]] where hash is the function r*10^3 +c.
+    - similary for color or other discrete object, we can map them to a number and then map that number to parent. 
+
+*Note:* It is not a graph, but a tree that gets formed. Since size of tree can get huge, in findParent recursive call, we do parent[a] = findParent(parent[a]); i.e. reassign parent to root, to make it amortized O(1).
+
+-Time complexity with path compression is O(4 * alpha) which is as good as O(20) i.e O(1).
+
+### Ackerman function
+- alpha is reverse ackerman function, and it basically is grows like 2^(power of Ackerman(n-1)) recursive. Ackerman(5) is larger than all the atoms in observable universe
+- therefore reverse ackerman grows very small and will be at max capped at 5, hence O(4*5)= O(20)
+- Intution for it, imagine buckets, in a deep fully balanced tree, once a call of findParent happens, everything gets connected to root, that leaves at max one subtree side of branch at top (if we assume binary tree) to be not be connected to root, whenever next call happens to that subtree, almost all of them gets in there and the tree shrinks considerably. 
+- Okay, this not a very good explanation, but essentially, Complexity is O(1).
+
 # Resource:
 
 ## [Graph Resource](https://leetcode.com/discuss/post/1326900/graph-algorithms-problems-to-practice-by-9u6j/)
