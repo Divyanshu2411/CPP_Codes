@@ -340,3 +340,55 @@ Each sequence must be of the same minimum length.
 
 ### Hint
 - look at this
+
+## DSU
+
+### Hint:
+- by rank or size, we do size with path compression
+- a parent array and a size array of length of number of nodes.
+- parent array -> every node is its own parent (singleton sets) -> use iota(parent.begin(), parent.end(),0) to fill, iteratively fills from starting point. 
+- size -> every set has size 1
+
+- now, two functions : one findParent
+    - we alwasy use path compression so it 
+     ```code
+        int findParent(int a){
+            if(a==parent[a]) return a;
+            return parent[a]= findParent(parent[a]); //keep finding parent of parent until root
+        }
+     ```
+ - union (by size)
+    - union can be simply adding two set and making one as root, but we do it by size (rank too, but intutively harder) so smaller set goes into bigger set, so that overall tree length is less.
+    ```code
+    void union(int a, int b){
+        int parA= getParent(a);
+        int parB= getParent(b);
+
+        if(size[parA]<size[parB]) swap(parA,parB); //to ensure parA always has bigger set size
+        parent[parB]= parA; // update parent for main parent of b
+        size[parA]+= size[parB]; // add set size of B to A. 
+    }
+    ```
+
+## [Number of Islands II](https://leetcode.com/problems/number-of-islands-ii/description/?envType=company&envId=uber&favoriteSlug=uber-six-months)
+
+```text
+2d mXn grid, 0 as water, 1 as land. Whole grid is water initially. Given a positions array with cell location [i][j] to insert land. After each insertion, tell the number of islands in grid.
+```
+
+### Hint
+- We have to tell number of island after every cell insertion, we can use BFS after every cell insertion to count number of island, but this smells like DSU.
+- we will have as many cells as position array at max(there can be duplicate, we will deal with it), so we create DSU with parent size as n(position) with values 0 to n-1, and size array of same size with each size 1. 
+- i.e. each cell is its own parent initially, (its own set), and set has size 1.
+- we have to map cell (i,j) to this parent, we can use (i,j) as key and parent index as value.
+- pair<int,int> can not be key, so convert i,j into a number, best is i*gridboundary+j.
+
+Actual soln now:
+- add cell in position as you come across in DSU.
+- if the cell is already seen, than we simply add number of components currently and move
+- otherwise we add it to map
+- find its four neighbor, if anyone of them is already on map, that means there was a land, we do DSU
+- components after each cell addition is 1- noOfDSU, i.e. the cell adds 1 to number of island, but if it has succesful union once, it means it became part of an existing island. If it has more than one succesful union, that means it is combinig those many islands, thus reducing total number of islands.
+
+
+
