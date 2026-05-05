@@ -120,6 +120,7 @@ Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 
 
 ## DSU
 Honestly, crazy DS (too much implications). Essentially, it divides the graph into disjoint sets (components), and allows two (findParent and Union).
+- Hardest part is what to treat as node (whole row can be a node(stone removal), each person can be a node in email join)
 - Very useful whenever the graph is changing after every step/operation. Think about dsu.
 - If you think like you have to traverse graph after every operation, it might be a good candidate for DSU. 
 - two vectors -> parent array (size n, with each node its own), size array (size of component under this parent root)
