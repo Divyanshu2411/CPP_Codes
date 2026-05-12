@@ -49,3 +49,22 @@ Implement the TimeMap class:
 -  key -> list of {timestamp, value}
 - timestamp will be binary search, so do a upper bound search on timestamp and then it-- (if it is not start of vector, else return "").
 - return value as it->second (notice no *, as it is already a pointer)
+
+### Leftmost Column with at Least a One in row sorted binary
+
+- A row-sorted binary matrix means that all elements are 0 or 1 and each row of the matrix is sorted in non-decreasing order.
+
+Given a row-sorted binary matrix binaryMatrix, return the index (0-indexed) of the leftmost column with a 1 in it. If such an index does not exist, return -1.
+
+You can't access the Binary Matrix directly. You may only access the matrix using a BinaryMatrix interface:
+- BinaryMatrix.get(row, col) returns the element of the matrix at index (row, col) (0-indexed).
+- BinaryMatrix.dimensions() returns the dimensions of the matrix as a list of 2 elements [rows, cols], which means the matrix is rows x cols.
+
+
+## Hint
+- Binary search on each row to get location of first one
+- Enhancement: maintain location of 1 found, mark that high in next row search since we need to find better
+- True Enahcnement: O(N+M)-> start with top right
+    - if value is 0, move down
+    - if it is 1, move left 
+    - at max O(N+M) moves, imagine a grid with 1s on diagonal, one as only on top row and one only in last row and one only in first col, you will understand. 
